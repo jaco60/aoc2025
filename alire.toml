@@ -1,0 +1,12 @@
+name = "aoc2025"
+description = "Advent of Code 2025 solutions in Ada"
+version = "0.1.0"
+
+authors = ["Eric Jacoboni"]
+maintainers = ["Eric Jacoboni <eric.jacoboni@posteo.net>"]
+licenses = "MIT"
+
+executables = ["day_01"]
+
+[build-switches]
+"*".ada_version = ["Ada2022"]
