@@ -40,7 +40,6 @@ procedure Day_02 is
          Close (Input_File);
 
          -- Séparer les intervalles
-         -- Create (Fields, To_String (Line), ",");
          Create (Fields, Line, ",");
       end;
 
