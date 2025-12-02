@@ -1,10 +1,8 @@
--- with Ada.Exceptions;
-with Ada.Text_IO;           use Ada.Text_IO;
+with Ada.Text_IO;       use Ada.Text_IO;
 with Ada.Containers.Vectors;
-with Ada.Strings.Fixed;     use Ada.Strings.Fixed;
-with GNAT.String_Split;     use GNAT.String_Split;
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
-with GNAT.Regpat;           use GNAT.Regpat;
+with Ada.Strings.Fixed; use Ada.Strings.Fixed;
+with GNAT.String_Split; use GNAT.String_Split;
+with GNAT.Regpat;       use GNAT.Regpat;
 
 procedure Day_02 is
 
@@ -31,16 +29,20 @@ procedure Day_02 is
    function Read_Input (File_Name : String) return Interval_Vectors.Vector is
       Input_File : File_Type;
       Intervals  : Interval_Vectors.Vector;
-      Line       : Unbounded_String;
       Fields     : Slice_Set;
    begin
-      -- Récupérer la ligne du fichier
+      -- Récupérer la ligne du fichier (une seule ligne attendue)
       Open (Input_File, In_File, File_Name);
-      Line := To_Unbounded_String (Get_Line (Input_File));
-      Close (Input_File);
 
-      -- Séparer les intervalles
-      Create (Fields, To_String (Line), ",");
+      declare
+         Line : constant String := Get_Line (Input_File);
+      begin
+         Close (Input_File);
+
+         -- Séparer les intervalles
+         -- Create (Fields, To_String (Line), ",");
+         Create (Fields, Line, ",");
+      end;
 
       -- Ajouter les intervalles au vecteur
       for I in 1 .. Slice_Count (Fields) loop
