@@ -9,7 +9,6 @@ project Aoc2025 is
          "-gnat2022",        -- Ada 2022
          "-gnatyN",          -- Pas de checks de style
          "-gnatwa",          -- Tous les warnings
-         "-gnatwe",          -- Warnings = errors (optionnel)
          "-gnata",           -- Enable assertions
          "-O2"               -- Optimisation
       );

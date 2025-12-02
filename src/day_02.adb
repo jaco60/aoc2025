@@ -1,6 +1,5 @@
 with Ada.Text_IO;       use Ada.Text_IO;
 with Ada.Containers.Vectors;
-with Ada.Strings.Fixed; use Ada.Strings.Fixed;
 with GNAT.String_Split; use GNAT.String_Split;
 with GNAT.Regpat;       use GNAT.Regpat;
 
@@ -18,8 +17,8 @@ procedure Day_02 is
       Subs   : Slice_Set;
       Result : Interval;
    begin
-      Create (Subs, Trim (S, Ada.Strings.Both), "-");
-
+      -- Create (Subs, Trim (S, Ada.Strings.Both), "-");
+      Create (Subs, S, "-");
       Result.Start := Long_Integer'Value (Slice (Subs, 1));
       Result.Finish := Long_Integer'Value (Slice (Subs, 2));
 
@@ -62,7 +61,7 @@ procedure Day_02 is
          for N in I.Start .. I.Finish loop
             declare
                N_Str : constant String :=
-                 Trim (Long_Integer'Image (N), Ada.Strings.Left);
+                 Long_Integer'Image (N) (2 .. Long_Integer'Image (N)'Last);
             begin
                if Match (Matcher, N_Str) then
                   Res := @ + N;
