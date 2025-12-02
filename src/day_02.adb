@@ -17,7 +17,6 @@ procedure Day_02 is
       Subs   : Slice_Set;
       Result : Interval;
    begin
-      -- Create (Subs, Trim (S, Ada.Strings.Both), "-");
       Create (Subs, S, "-");
       Result.Start := Long_Integer'Value (Slice (Subs, 1));
       Result.Finish := Long_Integer'Value (Slice (Subs, 2));
@@ -37,8 +36,6 @@ procedure Day_02 is
          Line : constant String := Get_Line (Input_File);
       begin
          Close (Input_File);
-
-         -- Séparer les intervalles
          Create (Fields, Line, ",");
       end;
 
