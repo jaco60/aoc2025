@@ -21,10 +21,10 @@ procedure Day_02 is
       Result : Interval;
    begin
       Create (Subs, Trim (S, Ada.Strings.Both), "-");
-
+      
       Result.Start := Long_Integer'Value (Slice (Subs, 1));
       Result.Finish := Long_Integer'Value (Slice (Subs, 2));
-
+      
       return Result;
    end Parse_Interval;
 
@@ -50,14 +50,37 @@ procedure Day_02 is
       return Intervals;
    end Read_Input;
 
-   function Solve
-     (Intervals : Interval_Vectors.Vector; Pattern : String)
-      return Long_Integer
-   is
-      Matcher : constant Pattern_Matcher := Compile (Pattern);
+   --  function Part1 (Intervals : Interval_Vectors.Vector) return Long_Integer is
+   --     Res : Long_Integer := 0;
+   --  begin
+   --     for I of Intervals loop
+   --        -- Traitement de chaque nombre de l'intervalle I
+   --        for N in I.Start .. I.Finish loop
+   --           declare
+   --              N_Str : constant String :=
+   --                Trim (Long_Integer'Image (N), Ada.Strings.Left);
+   --           begin
+   --              if N_Str'Length mod 2 = 0 then
+   --                 if N_Str (1 .. N_Str'Length / 2)
+   --                   = N_Str (N_Str'Length / 2 + 1 .. N_Str'Last)
+   --                 then
+   --                    Res := @ + N;
+   --                 end if;
+   --              end if;
+   --           end;
+   --        end loop;
+   --        New_Line;
+   --     end loop;
+   --     return Res;
+   --  end Part1;
+
+   function Part1_Bis (Intervals : Interval_Vectors.Vector) return Long_Integer is
       Res     : Long_Integer := 0;
+      Pattern : constant String := "^(.+)\1$";
+      Matcher : constant Pattern_Matcher := Compile (Pattern);
    begin
       for I of Intervals loop
+         -- Traitement de chaque nombre de l'intervalle I
          for N in I.Start .. I.Finish loop
             declare
                N_Str : constant String :=
@@ -70,20 +93,33 @@ procedure Day_02 is
          end loop;
       end loop;
       return Res;
-   end Solve;
+   end Part1_Bis;
 
-   -- Partie 1 : trouver les nombres avec une partie répétée exactement une fois
-   function Part1 (Intervals : Interval_Vectors.Vector) return Long_Integer
-   is (Solve (Intervals, "^(.+)\1$"));
-
-   -- Partie 2 : trouver les nombres avec une partie répétée au moins une fois
-   function Part2 (Intervals : Interval_Vectors.Vector) return Long_Integer
-   is (Solve (Intervals, "^(.+)\1+$"));
+   function Part2 (Intervals : Interval_Vectors.Vector) return Long_Integer is
+      Res     : Long_Integer := 0;
+      Pattern : constant String := "^(.+)\1+$";
+      Matcher : constant Pattern_Matcher := Compile (Pattern);
+   begin
+      for I of Intervals loop
+         -- Traitement de chaque nombre de l'intervalle I
+         for N in I.Start .. I.Finish loop
+            declare
+               N_Str : constant String :=
+                 Trim (Long_Integer'Image (N), Ada.Strings.Left);
+            begin
+               if Match (Matcher, N_Str) then
+                  Res := @ + N;
+               end if;
+            end;
+         end loop;
+      end loop;
+      return Res;
+   end Part2;
 
    Intervals : constant Interval_Vectors.Vector :=
      Read_Input ("inputs/day02/input.txt");
 
 begin
-   Put_Line ("Part 1: " & Part1 (Intervals)'Img);
+   Put_Line ("Part 1: " & Part1_Bis (Intervals)'Img);
    Put_Line ("Part 2: " & Part2 (Intervals)'Img);
 end Day_02;

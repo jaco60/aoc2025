@@ -14,6 +14,7 @@ procedure Day_01 is
        (Index_Type   => Positive,
         Element_Type => Instruction);
 
+  
    Circle_Size : constant := 100;  -- Le compteur va de 0 a 99
    Start_Pos   : constant := 50;   -- Position initiale du compteur
 
