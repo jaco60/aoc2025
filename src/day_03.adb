@@ -23,14 +23,14 @@ procedure Day_03 is
    end Read_Lines;
 
    function Max (Data : String) return Character is
-      Res : Character := '0';
    begin
-      for C of Data loop
-         if C > Res then
-            Res := C;
-         end if;
-      end loop;
-      return Res;
+      if Data'Length = 1 then
+         return Data (Data'First);
+      else
+         return
+           Character'Max
+             (Data (Data'First), Max (Data (Data'First + 1 .. Data'Last)));
+      end if;
    end Max;
 
    -- Renvoie la séquence max de K caractères de Data
