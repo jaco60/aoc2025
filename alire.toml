@@ -6,7 +6,7 @@ authors = ["Eric Jacoboni"]
 maintainers = ["Eric Jacoboni <eric.jacoboni@posteo.net>"]
 licenses = "MIT"
 
-executables = ["day_01", "day_02"]
+executables = ["day_01", "day_02", "day_03"]
 
 [build-switches]
 "*".ada_version = ["Ada2022"]
