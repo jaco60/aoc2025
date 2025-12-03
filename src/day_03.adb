@@ -1,5 +1,6 @@
 with Ada.Text_IO;           use Ada.Text_IO;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Ada.Strings.Fixed;     use Ada.Strings.Fixed;
 with Ada.Containers.Vectors;
 
 procedure Day_03 is
@@ -21,36 +22,29 @@ procedure Day_03 is
       return Result;
    end Read_Lines;
 
-   function Max_Joltage_Seq (Data : String; Nb_Digits : Positive) return String
-   is
-      Result    : Unbounded_String;
-      Start_Idx : Positive := Data'First;
-      End_Idx   : Positive;
-      Max_Idx   : Positive;
-      Max_Char  : Character;
+   function Max (Data : String) return Character is
+      Res : Character := '0';
    begin
-      for Pos_Seq in 1 .. Nb_Digits loop
-         End_Idx := Data'Length - (Nb_Digits - Pos_Seq);
-         Max_Char := Data (Start_Idx);
-         Max_Idx := Start_Idx;
-         for Current_Idx in Start_Idx + 1 .. End_Idx loop
-            declare
-               Current_Char : constant Character := Data (Current_Idx);
-            begin
-               if Current_Char > Max_Char then
-                  Max_Char := Current_Char;
-                  Max_Idx := Current_Idx;
-                  if Max_Char = '9' then
-                     exit;
-                  end if;
-               end if;
-            end;
-         end loop;
-         Append (Result, Max_Char);
-         Start_Idx := Max_Idx + 1;
+      for C of Data loop
+         if C > Res then
+            Res := C;
+         end if;
       end loop;
-      return To_String (Result);
-   end Max_Joltage_Seq;
+      return Res;
+   end Max;
+
+   -- Renvoie la séquence max de K caractères de Data
+   function Max_Joltage (Data : String; K : Natural := 2) return String is
+      Next     : Character;
+      Next_Pos : Natural;
+   begin
+      if K = 0 then
+         return "";
+      end if;
+      Next := Max (Data (Data'First .. Data'First + Data'Length - K));
+      Next_Pos := Index (Data, String'(1 => Next));
+      return (Next & Max_Joltage (Data (Next_Pos + 1 .. Data'Last), K - 1));
+   end Max_Joltage;
 
    function Solve
      (Data : Str_Vectors.Vector; K : Positive := 2) return Long_Integer
@@ -60,7 +54,7 @@ procedure Day_03 is
    begin
       for D of Data loop
          Max := 0;
-         for C of Max_Joltage_Seq (To_String (D), K) loop
+         for C of Max_Joltage (To_String (D), K) loop
             Max :=
               @ * 10 + Long_Integer (Character'Pos (C) - Character'Pos ('0'));
          end loop;
