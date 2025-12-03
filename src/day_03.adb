@@ -21,20 +21,19 @@ procedure Day_03 is
       return Result;
    end Read_Lines;
 
-   function Max_Joltage_Seq
-     (Data : String; Nb_Digits : Positive) return String
+   function Max_Joltage_Seq (Data : String; Nb_Digits : Positive) return String
    is
-      Result      : Unbounded_String;
-      Start_Idx   : Positive := Data'First;
-      End_Idx     : Positive;
-      Max_Idx     : Positive;
-      Max_Char    : Character;
+      Result    : Unbounded_String;
+      Start_Idx : Positive := Data'First;
+      End_Idx   : Positive;
+      Max_Idx   : Positive;
+      Max_Char  : Character;
    begin
       for Pos_Seq in 1 .. Nb_Digits loop
          End_Idx := Data'Length - (Nb_Digits - Pos_Seq);
-         Max_Char := '0';
+         Max_Char := Data (Start_Idx);
          Max_Idx := Start_Idx;
-         for Current_Idx in Start_Idx .. End_Idx loop
+         for Current_Idx in Start_Idx + 1 .. End_Idx loop
             declare
                Current_Char : constant Character := Data (Current_Idx);
             begin
@@ -53,7 +52,8 @@ procedure Day_03 is
       return To_String (Result);
    end Max_Joltage_Seq;
 
-   function Solve (Data : Str_Vectors.Vector; K : Positive := 2) return Long_Integer
+   function Solve
+     (Data : Str_Vectors.Vector; K : Positive := 2) return Long_Integer
    is
       Result : Long_Integer := 0;
       Max    : Long_Integer;
@@ -62,9 +62,7 @@ procedure Day_03 is
          Max := 0;
          for C of Max_Joltage_Seq (To_String (D), K) loop
             Max :=
-              @
-              * 10
-              + Long_Integer (Character'Pos (C) - Character'Pos ('0'));
+              @ * 10 + Long_Integer (Character'Pos (C) - Character'Pos ('0'));
          end loop;
          Result := @ + Max;
       end loop;
