@@ -2,6 +2,7 @@ with Ada.Text_IO;           use Ada.Text_IO;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Containers.Vectors;
 with Ada.Containers.Hashed_Sets;
+with Ada.Containers;        use Ada.Containers;
 
 procedure Day_04 is
 
@@ -68,8 +69,8 @@ procedure Day_04 is
       return (if Data.Contains (Coord) then Result - 1 else Result);
    end Count_Adj;
 
-   function Part1 (Data : Set) return Natural is
-      Result : Natural := 0;
+   function Part1 (Data : Set) return Count_Type is
+      Result : Count_Type := 0;
    begin
       for Coord of Data loop
          if Count_Adj (Data, Coord) < 4 then
@@ -79,9 +80,36 @@ procedure Day_04 is
       return Result;
    end Part1;
 
+   function Part2 (Data : Set) return Count_Type is
+      Working_Set : Set := Data;
+      Result      : Count_Type := 0;
+      Removed     : Count_Type;
+   begin
+      loop
+         Removed := 0;
+
+         declare
+            To_Remove : Set;
+         begin
+            for Coord of Working_Set loop
+               if Count_Adj (Working_Set, Coord) < 4 then
+                  To_Remove.Insert (Coord);
+               end if;
+            end loop;
+            Working_Set := @ - To_Remove;
+            Removed := To_Remove.Length;
+         end;
+         exit when Removed = 0;
+         Result := @ + Removed;
+      end loop;
+
+      return Result;
+   end Part2;
+
    Data : constant Str_Vectors.Vector := Read_Lines ("inputs/day04/input.txt");
 
-   Data_Set : constant Set := To_Set (Data);
+   Data_Set : Set := To_Set (Data);
 begin
    Put_Line ("Part 1 : " & Part1 (Data_Set)'Img);
+   Put_Line ("Part 2 : " & Part2 (Data_Set)'Img);
 end Day_04;
