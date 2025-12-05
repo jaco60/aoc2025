@@ -56,8 +56,8 @@ procedure Day_04 is
       return Result;
    end To_Set;
 
-   function Count_Adj (Data : Set; Coord : Coordinates) return Natural is
-      Result : Natural := 0;
+   function Count_Adj (Data : Set; Coord : Coordinates) return Count_Type is
+      Result : Count_Type := 0;
    begin
       for X in Coord.X - 1 .. Coord.X + 1 loop
          for Y in Coord.Y - 1 .. Coord.Y + 1 loop
